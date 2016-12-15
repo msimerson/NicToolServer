@@ -22,16 +22,17 @@ addons:
 
 before_install:
 #   - sudo .test/tls-setup.sh
-#   - sudo apt-get install -y libextutils-makemaker-perl || echo "nope"
-#   - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
+    - sudo apt-get install -y libextutils-makemaker-perl || echo "nope"
+    - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
+#   - sudo cpanm --notest Crypt::Mac::HMAC Crypt::KeyDerivation Shell Net::DNS::ZoneFile LWP::UserAgent
       # global/system installed perl modules
-#   - sudo cpanm --notest CGI Time::TAI64 Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell Net::DNS::ZoneFile LWP::UserAgent
-#   - sudo cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS MIME::Base32 Net::IP
+    - sudo cpanm --notest JSON MIME::Base32 DBI DBIx::Simple DBD::mysql XML::Parser RPC::XML Digest::SHA1 Apache::DBI CryptX Net::IP SOAP::Lite Digest::HMAC Net::DNS Time::TAI64 Bind::Conf_Parser Test::HTML::Lint
 
 install:
-#   - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
-#   - sudo service apache2 restart || sudo cat /var/log/apache2/error.log
-#   - sudo perl .test/create_tables.pl
+    - cpanm --quiet --installdeps --notest .
+    - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
+    - sudo service apache2 restart || sudo cat /var/log/apache2/error.log
+    - sudo perl .test/create_tables.pl
 
 before_script:
 
