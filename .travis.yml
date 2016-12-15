@@ -33,7 +33,7 @@ install:
 before_script:
 
 script:
-    - perl Makefile.PL
+    - sudo perl Makefile.PL
     - sudo make test
 
 after_success:
