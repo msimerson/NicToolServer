@@ -86,59 +86,14 @@ sub get_dbh {
     return ($dbh, $db_host);
 }
 
-sub answer {
-
-    my ( $question, $default, $timeout) = @_;
-            
-    # this sub is useless without a question.
-    unless ($question) {
-        die "question called incorrectly. RTFM. \n";
-    }
-
-    print "Please enter $question";
-    print " [$default]" if $default;
-    print ": ";
-
-    my ($response);
-
-    if ($timeout) {
-        eval {
-            local $SIG{ALRM} = sub { die "alarm\n" };
-            alarm $timeout;
-            $response = <STDIN>;
-            alarm 0;
-        };  
-        if ($EVAL_ERROR) {
-            ( $EVAL_ERROR eq "alarm\n" )
-                ? print "timed out!\n"
-                : warn;    # propagate unexpected errors
-        }
-    }
-    else {
-        $response = <STDIN>;
-    }
-
-    chomp $response;
-
-    # if they typed something, return it
-    return $response if ( $response ne "" );
-
-    # otherwise, return the default if available
-    return $default if $default;
-
-    # and finally return empty handed
-    return "";
-}
-
-
 sub get_sql_files {
     my @r;
-    opendir(DIR, 'server/sql') || die "unable to open dir: $!\n";
+    opendir(DIR, 'sql') || die "unable to open dir: $!\n";
     foreach my $file (sort readdir(DIR)) {
         next if /^\./;
-        next if -d "server/sql/$file";
+        next if -d "sql/$file";
         next if $file !~ /\.sql$/;
-        push @r, 'server/sql/' . $file;
+        push @r, 'sql/' . $file;
     };
     close DIR;
     if (scalar @r < 8) {
