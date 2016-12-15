@@ -6,8 +6,6 @@ if [ ! -d "$NT_INSTALL_DIR" ]; then
     mkdir -p "$NT_INSTALL_DIR" || exit
 fi
 
-cp .test/nictoolserver.conf server/lib/nictoolserver.conf
-cp .test/nictoolclient.conf client/lib/nictoolclient.conf
+cp .test/nictoolserver.conf lib/nictoolserver.conf
 
-cp -r server "$NT_INSTALL_DIR/"
-cp -r client "$NT_INSTALL_DIR/"
+cp -r . "$NT_INSTALL_DIR/"
