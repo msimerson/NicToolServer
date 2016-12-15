@@ -20,7 +20,7 @@ addons:
 before_install:
     # global/system installed perl modules
     - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
-    - sudo cpanm --notest JSON MIME::Base32 DBI DBIx::Simple DBD::mysql XML::Parser RPC::XML Digest::SHA1 Apache::DBI CryptX Net::IP SOAP::Lite Digest::HMAC Net::DNS Time::TAI64 BIND::Conf_Parser Test::HTML::Lint
+    - sudo cpanm --notest JSON MIME::Base32 DBI DBIx::Simple DBD::mysql XML::Parser RPC::XML Digest::SHA1 Apache::DBI CryptX Net::IP SOAP::Lite Digest::HMAC Net::DNS Time::TAI64 BIND::Conf_Parser Test::HTML::Lint Params::Validate
     # - sudo cpanm --notest Crypt::Mac::HMAC Crypt::KeyDerivation Shell Net::DNS::ZoneFile LWP::UserAgent
 
 install:

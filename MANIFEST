@@ -20,8 +20,6 @@ api/lib/NicTool/User.pm
 api/lib/NicTool/Zone.pm
 api/Makefile.PL
 api/MANIFEST
-api/MYMETA.json
-api/MYMETA.yml
 api/README
 api/t/api.t
 api/t/cache.t
@@ -35,9 +33,7 @@ api/t/test.cfg
 api/t/TestConfig.pm
 api/t/transport.t
 bin/nt_export.pl
-bin/nt_from_git.pl
 bin/nt_import.pl
-bin/nt_install_deps.pl
 bin/nt_powerdns.pl
 Changes
 COPYING
