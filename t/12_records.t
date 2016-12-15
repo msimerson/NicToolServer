@@ -34,6 +34,7 @@
 use lib '.';
 use lib 't';
 use lib 'lib';
+use lib 'api';
 use NicToolTest;
 use NicTool;
 use Test;
@@ -266,25 +267,26 @@ sub doit {
     }
 
 #invalid name (bad chars)
-    for $type ( qw/A AAAA MX NS CNAME PTR SRV/ ) {
-        for my $char ( @invalid_ascii ) {
+# Name characters can now be any printable ASCII character...
+    # for $type ( qw/A AAAA MX NS CNAME PTR SRV/ ) {
+    #     for my $char ( @invalid_ascii ) {
 
-            $res = $zone1->new_zone_record(
-                name    => "some${char}thing",
-                type    => $type,
-                ttl     => 86400,
-                address => $type eq 'A' ? '1.1.1.1' : 'a.b.c.d.',
-                ($type eq 'MX' ? (weight => 1) : ()),
-            );
-            noerrok( $res, 300, "type $type name some${char}thing" );
-            ok( $res->get('error_msg') => qr/invalid character/ );
-            ok( $res->get('error_desc') => qr/Sanity error/ );
-            if ( !$res->is_error ) {
-                $res = $user->delete_zone_record(
-                    nt_zone_record_id => $res->{'nt_zone_record_id'} );
-            }
-        }
-    }
+    #         $res = $zone1->new_zone_record(
+    #             name    => "some${char}thing",
+    #             type    => $type,
+    #             ttl     => 86400,
+    #             address => $type eq 'A' ? '1.1.1.1' : 'a.b.c.d.',
+    #             ($type eq 'MX' ? (weight => 1) : ()),
+    #         );
+    #         noerrok( $res, 300, "type $type name some${char}thing" );
+    #         ok( $res->get('error_msg') => qr/invalid character/ );
+    #         ok( $res->get('error_desc') => qr/Sanity error/ );
+    #         if ( !$res->is_error ) {
+    #             $res = $user->delete_zone_record(
+    #                 nt_zone_record_id => $res->{'nt_zone_record_id'} );
+    #         }
+    #     }
+    # }
 
     #invalid name (fqdn)
     foreach my $name ( qw/ a.m. something.test. / ) {
