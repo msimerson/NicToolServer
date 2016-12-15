@@ -50,8 +50,8 @@ before_install:
 #   - sudo apt-get install -y libextutils-makemaker-perl || echo "nope"
     - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
       # global/system installed perl modules
-#   - sudo cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell Net::DNS::ZoneFile LWP::UserAgent
-#   - sudo cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS MIME::Base32 Net::IP BIND::Conf_Parser DBIx::Simple DBI
+    - sudo cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell Net::DNS::ZoneFile LWP::UserAgent
+    - sudo cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS MIME::Base32 Net::IP BIND::Conf_Parser DBIx::Simple DBI
 
 install:
     - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
