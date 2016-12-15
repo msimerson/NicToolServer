@@ -24,7 +24,7 @@ before_install:
     - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
 #   - sudo cpanm --notest Crypt::Mac::HMAC Crypt::KeyDerivation Shell Net::DNS::ZoneFile LWP::UserAgent
       # global/system installed perl modules
-    - sudo cpanm --notest JSON MIME::Base32 DBI DBIx::Simple DBD::mysql XML::Parser RPC::XML Digest::SHA1 Apache::DBI CryptX Net::IP SOAP::Lite Digest::HMAC Net::DNS Time::TAI64 Bind::Conf_Parser Test::HTML::Lint
+    - sudo cpanm --notest JSON MIME::Base32 DBI DBIx::Simple DBD::mysql XML::Parser RPC::XML Digest::SHA1 Apache::DBI CryptX Net::IP SOAP::Lite Digest::HMAC Net::DNS Time::TAI64 BIND::Conf_Parser Test::HTML::Lint
 
 install:
     - cpanm --quiet --installdeps --notest .
