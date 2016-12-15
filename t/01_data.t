@@ -25,7 +25,6 @@ use Data::Dumper;
 
 BEGIN {
     use_ok( 'DBIx::Simple' );
-    use_ok( 'NicTool' );
     use_ok( 'NicToolServer' );
     use_ok( 'NicToolServer::Zone' );
 };

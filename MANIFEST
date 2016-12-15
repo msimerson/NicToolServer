@@ -16,7 +16,6 @@ api/contrib/DNS.pm
 api/contrib/addserver.pl
 api/contrib/update_group_nameservers.pl
 api/contrib/zone2nic.pl
-api/dist.ini
 api/lib/NicTool.pm
 api/lib/NicTool/API.pm
 api/lib/NicTool/Cache.pm
@@ -44,11 +43,8 @@ api/t/result.t
 api/t/test.cfg
 api/t/transport.t
 bin/nt_export.pl
-bin/nt_from_git.pl
 bin/nt_import.pl
-bin/nt_install_deps.pl
 bin/nt_powerdns.pl
-dist.ini
 lib/NicToolServer.pm
 lib/NicToolServer/Client.pm
 lib/NicToolServer/Client/SOAP.pm
@@ -112,9 +108,9 @@ t/30_export_tinydns.t
 t/NicToolTest.pm
 t/README
 t/TODO
-t/author-critic.t
-t/author-pod-coverage.t
-t/author-pod-syntax.t
+xt/author-critic.t
+xt/author-pod-coverage.t
+xt/author-pod-syntax.t
 t/fixtures/1.0.10.in-addr.arpa
 t/fixtures/138.80.85.in-addr.arpa
 t/fixtures/example.com

@@ -1,0 +1,42 @@
+NicTool Client framework README.
+(c) 2002 Dajoba, LLC
+Greg Schueler, 2/26/02
+greg@dajoba.com
+
+This is a short README to introduce the client framework for NicTool.  It consists of the NicTool.pm module and various subpackages.
+To use this client framework you need to have a working installation of NicToolServer .
+
+There are a number of objects in the NicTool system, and they are represented as follows:
+
+group       - NicTool::Group
+user        - NicTool::User
+zone        - NicTool::Zone
+record      - NicTool::Record
+nameserver  - NicTool::Nameserver
+
+Some functions in the NicTool API return lists of objects.  A list is represented by:
+
+list        - NicTool::List
+
+Every time a function is called, the object that is returned is an instance of NicTool::Result
+which has the following methods:
+
+
+NicTool::Result::error_code -   returns the numerical error code
+NicTool::Result::error_msg  -   returns the textual error message
+NicTool::Result::is_error   -   returns TRUE if the error code is not '200'
+
+Every type of object is a subclass of NicTool::Result 
+
+2011 - UPDATE
+
+In the contrib directory are examples of how to use the NicTool API.
+
+DNS.pm is a good example of how to encapsulate NicTool API methods for automated use.
+
+For a modern high(er) quality example, check out the NicTool module from Provision::Unix. You can find Provision::Unix on CPAN.
+
+For a complete working example donated by ColocateUSA Inc., download the ColoUSA package from http://www.nictool.com/download/ColoUSA-1.02.tar.gz  Included in the package are scripts for resetting rDNS (via CGI or CLI) and updating a hostname (PTRs, A, AAAA).
+
+Matt
+
