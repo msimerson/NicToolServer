@@ -18,3 +18,5 @@ nytprof.out
 *.o
 *.bs
 /_eumm/
+bin/nt_from_git.pl
+bin/nt_install_deps.pl

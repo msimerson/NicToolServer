@@ -1,0 +1,80 @@
+use strict;
+use warnings;
+
+use ExtUtils::MakeMaker;
+
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "NicTool API reference server",
+  "AUTHOR" => "Matt Simerson <msimerson\@cpan.org>, Damon Edwards, Abe Shelton, Greg Schueler",
+  "BUILD_REQUIRES" => {
+    "Apache::DBI" => 0,
+    "CGI" => 3,
+    "CryptX" => "0.021",
+    "DBD::mysql" => "2.0416",
+    "DBI" => "1.20",
+    "DBIx::Simple" => 0,
+    "LWP::UserAgent" => 0,
+    "MIME::Base32" => 0,
+    "MIME::Base64" => 0,
+    "Net::IP" => 0,
+    "Params::Validate" => "0.8",
+    "RPC::XML" => 0,
+    "SOAP::Lite" => "0.51",
+    "Time::HiRes" => "1.9",
+    "Time::TAI64" => 2,
+    "XML::Parser" => 0,
+    "parent" => "0.2"
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => 0
+  },
+  "DISTNAME" => "NicToolServer",
+  "LICENSE" => "open_source",
+  "NAME" => "NicToolServer",
+  "PREREQ_PM" => {
+    "BIND::Conf_Parser" => 0,
+    "Crypt::KeyDerivation" => 0,
+    "Crypt::Mac::HMAC" => 0,
+    "Cwd" => 0,
+    "DBI" => "1.20",
+    "DBIx::Simple" => 0,
+    "Data::Dumper" => 0,
+    "English" => 0,
+    "File::Copy" => 0,
+    "File::Path" => 0,
+    "IO::File" => 0,
+    "JSON" => 0,
+    "LWP::UserAgent" => 0,
+    "MIME::Base32" => 0,
+    "MIME::Base64" => 0,
+    "Net::DNS::ZoneFile" => 0,
+    "Net::IP" => 0,
+    "Params::Validate" => "0.8",
+    "RPC::XML" => 0,
+    "RPC::XML::Parser" => 0,
+    "Scalar::Util" => 0,
+    "Time::HiRes" => "1.9",
+    "Time::Local" => 0,
+    "Time::TAI64" => 2,
+#   "constant" => 0,
+#   "lib" => 0,
+#   "parent" => "0.2",
+#   "strict" => 0,
+#   "vars" => 0,
+#   "warnings" => 0
+#   "mod_perl" => 0,
+#   "NicTool" => 0,
+#   "APR::Table" => 0,
+  },
+  "TEST_REQUIRES" => {
+    "Exporter" => 0,
+    "Test" => 0,
+    "Test::More" => 0
+  },
+  "VERSION" => "2.33",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
+
+WriteMakefile(%WriteMakefileArgs);

@@ -1,0 +1,521 @@
+Revision history for NicToolServer
+
+2.33    2015.12.07
+
+    * update NSD exports for version 4
+    * add HTTPS support to nt_import (#102)
+    * prevent CNAME collisions (#113)
+
+2.32    2015.07.26
+
+    * clean up old successful exports 
+    * add a . to the end of NAPTR records (@djzort) #89
+    * server/contrib/zone2nic.pl:
+        * removed unneeded variable
+        * used Getopt::Long for long command-line options
+        * added support for more command-line options
+        * added support for AAAA records
+    * Export/BIND/nsupdate: FQDN checks for more types #83, #84, #85
+    * LDAP authentication added (@larso & @vtsingaras) #82
+    * Added https support for NicTool Client #81
+    * replace localhost with 127.0.0.1 (for hosts with IPv6 priority) #80
+    * suppress debug output when not interactive (no tty)
+    * logger uses nt_export for process name
+    * goodbye query_log
+    * remove the rest of 'nameservers' from ::Import::BIND::Conf_Parser
+    * Import::BIND: use $rr->nsdname, not $rr->address
+    * Auto-locate nsid if nt_export.pl is being run on a registered nameserver
+    * nt_export.pl: added --conf and searching for config file (Gerard Hickey)
+
+2.31    2015.01.28
+
+    * require TTL on identical label+type to be identical (#7)
+    * fetch name collisions once, saving trips to DB during validation
+    * prevent duplicate RRs (#8)
+    * NS records where the name != zone were skipped during import
+    * permit zones to be created w/o NS
+    * exports: remove trailing / in export dir path
+    * remove mysql and apache from server/install_deps
+
+2.30    2014.12.04
+
+    * passwords: new/edit users use PBKDF2 passwords
+    * expand nt_user.password from 128 -> 255 chars
+    * Import: when searching for zones, lc the zone name
+
+2.29    2014.11.18
+
+    * Export: add count type description after zone count
+    * Export/BIND/nsupdate
+        * remove redundant call to qualify in nsupdate script (@abeeson)
+    * Import/tinydns
+        * combined A/PTR record (=) wasn't importing PTR correctly
+        * fixed SRV record import bug
+        * removed ip6 PTR zone hint
+        * import location & timestamp fields (when defined)
+    * sql
+        * added location column to nt_zone_record_log
+    * api
+        * get_group_zones now returns last_modified
+
+2.28    2014.10.08
+
+    * NicTool API: added get_usable_nameservers method
+    * Import/tinydns
+        * import SRV records (from Generic type)
+        * when importing ip6.arpa, provide a 64-bit zone hint
+        * define MX=0 if not defined (tinydns default)
+    * Import/Base: when searching for parent zone, recurse all the way
+    * Zone/Record
+        * permit any ascii printable chars in name
+        * permit underscore (_) chars in host names
+    * Exports/Dyn: export success is defined per-domain (vs per-NS)
+    * Export/BIND/nsupdate:
+        * add DDNS key (abeeson)
+        * added timeout detection (abeeson)
+    * Export/tinydns: pass remote login to export (ShaunR)
+    * improve SQL updates from v2.10 (ShaunR)
+    * BIND exports, fully qualify name if name = zone
+
+2.27    2014.07.08
+
+    * fix post-export "restart" target for BIND export
+    * added incremental support to Knot exports
+    * User::*, refactored, consolidated duplicated methods into User.pm
+    * changed password format from SHA-1 to PBKDF2
+    * sql: added nt_user.pass_salt
+    * NicToolServer::Session refactored, reduced duplication, fix for PR#47
+    * added NicToolServer::get_option
+        * moved session_timeout & default_group from .conf -> nt_options.sql
+    * deleted NicToolServer::valid_reverse_lookup
+    * test updates
+    * API fixes for NS operations
+
+2.26    2014.06.26
+
+    * fix an import from BIND bug where apex records were not imported
+    * add --help opt to nt_import (thanks ShaunR)
+
+2.25    2014.06.19
+
+    * Zone::Sanity, added missing 'type' (Issue #39)
+    * MaraDNS: when exporting, ignore NAPTR records
+    * nt_import: add more debugging
+    * add .dist extension to lib/nictool[client|server].conf (PR #38 ShaunR)
+    * remove nictool version information from the public eye. (PR #37 ShaunR)
+    * in export status, make labels more clear
+    * Export::Knot: improved docs and integration
+    * Export::BIND: use make -C instead of chdir
+    * validate mailaddr in zone SOA
+    * powerdns: default export class for BIND backend
+    * NSD: Makefile update for nsd-control (NSD 4)
+    * added Export::zones_exported function
+    * better acknowledge NicTool authors contributions
+    * sql: s/export_format/export_type_id/ in sample ns
+
+2.24    2014.06.14
+
+    * added Exports::DynECT for Managed DNS service
+    * added Exports::BIND::nsupdate (thanks abeeson!)
+    * SQL: added nt_nameserver_export_type
+    * SQL: added nt_nameserver.address6 (IPv6 address)
+    * SQL: added nt_nameserver.remote_login
+    * BIND exports, don't delete zone file if zone deleted and re-added
+    * more reliable imports of ip6.arpa zones
+    * more reliable sql/upgrade.pl
+    * more user-friendly sql/create_tables.pl
+    * API: return nt_zone_id in edit_zone results
+
+2.23    2014.05.26
+
+    * SQL changes for enhanced compatibility with MySQL InnoDB
+    * on newer FreeBSD, install apps & perl modules using 'pkg install'
+    * Add DNSSEC DS records for reverse zones (Steve Bauer)
+    * updated DNSSEC algorithms from IANA
+    * fix issue #25, valid_16bit_int cannot be empty
+    * BIND exports: after successful copy, update DB indicating so
+    * force export if get_last_export(success=>1) fails (see 44a9da0bca)
+    * Exports::is_ip_port now throws warnings for missing/invalid values
+
+2.22    2014.02.07
+
+    * fix import/export of NAPTR records
+    * encrypt root password during install
+    * define default values in schema to avoid errors from MySQL >= 5.6
+    * check if zone file exists before delete attempt
+
+2.21    2013.08.14
+
+    * additional installer updates, for smoother installs
+    * don't strip is_admin from $user object
+    * improved Ubuntu / apt support -Thomas Miedema
+
+2.20    2013.05.26
+
+    * allow _ char in some types of zone names
+
+2.19    2013.04.18
+
+    * new feature: BIND import (all but DNSSEC records working)
+    * new option: BIND incremental exports (anonymous sponsor)
+    * allow NS name to have _ char (Oliver Koch)
+    * BIND zone file cleanup after deletion in NicTool (anon sponsor)
+    * added support for NSEC3, NSEC3PARAM, IPSECKEY, DNAME, SSHFP record types
+    * fixed NSEC bitmap ceiling, was sorted by ASCII instead of num value
+    * fully qualify SOA mailaddr in BIND exports
+    * add matching TXT record when SPF record created (RFC 4408)
+
+2.18    2013.04.05
+
+    * BIND & tinydns exports: added records DNSKEY, NSEC, RRSIG, & DS
+    * SQL: added record types: NAPTR, SSHFP, RRSIG, NSEC
+    * corrected zone count in export log entries
+    * added BIND postflight export options (compile,remote,restart), enabling
+      easier integration with PowerDNS and NSD
+    * be a better behaved daemon when encountering tinydns export errors
+    * while sleeping, print status messages in the log every 100 seconds
+    * BIND exports:
+      if mailaddr blank, insert a default
+      split TXT records > 255 chars
+      use datadir for exports (was export dir)
+    * enforce RFC 2181: MX cannot point to CNAME
+
+
+2.16    2012.12.11
+
+    * expanded length of record address from 255 to 512 bytes, to accommodate
+      longer DKIM keys
+    * removed all the usable_nsX nonsense, replaced with a comma packed field
+      - this further improves upon the SQL fixes to support > 10 nameservers
+    * remove current password requirement when admins update one
+    * fix for hashed passwords with and non-all-lower username
+    * remove Apache2::SOAP dependency
+    * added BIND zone templates (Paul Hamby)
+    * admins don't need current password to modify user passwords
+    * SQL: restored nt_user.is_admin column (it's used now)
+    * SQL: added missing DB version update to v2.15 updater
+
+2.15    2012.10.16
+
+    * new server/bin/nt_import.pl, imports from tinydns data files
+    * updates for BIND exports (see git commits)
+    * fix for finding zone records with Type specified
+    * more support for NAPTR records
+    * fixed copy/paste errors in SQL
+    * powerdns export fix for get_soa SQL query
+    * optimized tinydns exports for speed
+    * allow zone names with only one label (TLDs)
+
+2.14    2012.03.30
+
+    * added quotes to BIND SPF record
+    * export a named.conf.local file (for inclusion in named.conf)
+    * updated and included PowerDNS backend (server/bin/nt_powerdns.pl)
+    * added MaraDNS support   - Matthias Bethke
+    * fixed an undefined variable warning when exporting
+    * don't complain about BIND not being successful if not 'copied'
+    * enabled LOC records for new installs
+
+2.13    2012.01.19
+    * removed sys/djb c++ export app (broken)
+    * allow domain labels to begin with a number (RFC 1123)
+      https://www.tnpi.net/support/forums/index.php/topic,1014.0.html
+    * expand valid TTL range from 300-2592000 to 0-2147483647 (RFC 2181)
+    * editing zone properties or NS didn't increment zone serial #
+    * other bug fixes.
+
+2.12    2012.01.04
+
+    * added syntax testing for modules
+    * exports were including records from deleted zones (reported by R. Ross)
+      added the nt_zone.deleted=0 condition to the zone record export query
+    * rewrote many SQL queries so they look like SQL
+    * more and better export status messages
+    * boosted export performance substantially
+    * improved the sql/upgrade.pl detection
+    * for the autogenerated export/run file, added more docs and added
+      setuidgid to manual invocation as well (consistency)
+    * added api/contrib/update_group_nameservers.pl, a very good example
+    * added 2 more modules to install_deps.pl
+
+2.11    2011.11.27
+
+    * nt_export.pl will catch signals and exit gracefully
+    * automatically clean up the many "success, 0 changed zones" entries in
+      nt_nameserver_export_log
+    * added valid wildcard record tests
+    * added wildcard and SRV exceptions to valid_label
+    * fixed some SQL errors where logging failed due to missing data
+    * added zone record tests for AAAA, SRV, SPF, and TXT records
+    * added sanity tests for SRV records
+    * automatic expansion of IPv6 addresses (allows condensed entry)
+    * added valid_reverse_label, to validate domain labels in reverse zones
+    * consolidated character verification logic into get_invalid_chars
+    * moved tests out of new_or_edit_basic_verify into _valid_(MX,NS,A,etc)
+      subs, making it easier for programmers to follow the flow of code
+    * require all domain labels to end with a letter or digit
+    * require (nearly) all domain labels to start with a letter
+    * Added get_record_type to the API (see NicToolClient changes for why)
+    * SQL: replaced nt_zone_record.type with nt_zone_record.type_id, which
+      references resource_record_type.id. While this does make some queries
+      slightly more complex, it greatly simplifies adding new RR types.
+    * SQL: foreign key constraints are defined but not enabled by default.
+      The test suite passes with them enabled. You must be using the InnoDB
+      engine for FKC to work. InnoDB is the default engine in MySQL 5.5+
+    * renamed SQL import files. With foreign key constraints, order matters.
+
+
+2.10    2011.11.21  - mps
+
+    * added NicToolServer::Zone::valid_label (RFC validation of domain name)
+    * added NicToolServer::valid_ttl, and removed 6 duplicated instances
+    * deleted unused NicToolServer::valid_hostname
+    * consolidated duplicated definitions of _error into NicToolServer::error
+    * added RFC 2181 domain name length restrictions
+    * added IPv6 address expansion (from djbdnsRecordBuilder)
+    * SQL: moved nt_nameserver_export_procstatus.status to
+        nt_nameserver.export_status and dropped nt_nameserver_export_procstatus
+    * SPF record support (in addition to TXT SPF records)
+    * beefed up bin/nt_install_deps.pl.
+    * SQL: added sql/upgrade.pl It logs into a NicTool database, determines
+       which updates are required, and runs them.
+    * SQL: added resource_record_types table. IDs are the IETF record type
+      number and the name is the IETF record type. Using a related table moves
+      the data out of the database schema (ENUM(blah,blah)) and into rows,
+      where it belongs. It also means adding new record types won't require
+      altering db tables.
+    * if nt_export.pl was not provided a nsid, shows a list of active NSs
+      before asking for a selection.
+    * added NicToolServer::Export::BIND. Tested with BIND 9.6
+    * SQL: renamed nt_nameserver.export_format='djb' -> 'tinydns'
+    * SQL: added nt_zone_record.timestamp field. See the timestamp description
+      on the tinydns-data page. Allows start/stop times for records.
+    * added location support to database and tinydns exports. See
+      https://www.tnpi.net/support/forums/index.php/topic,1004.0.html
+    * added RFC 2181 tests. CNAME records cannot coexist with any other record
+      type (except DNSSEC). NS and MX must not point to a CNAME.
+    * SQL: added record types to database: DS, DNSKEY, KEY (not used yet)
+    * added addserver and zone2nic in api/contrib (from Adrian)
+    * do not replace : chars in record addresses. No longer necessary because
+      export routines handle encoding of : during export.
+    * subclassed the tinydns portions of NTS::Export into NTS::Export::tinydns
+    * added support for exporting nsid=0 (all nameservers). Exports every
+      zone, regardless of NS preference. Useful for virtual nameservers and
+      the tinydns multiip patch.
+    * ripped out all the https support from NicTool (server, client, API)
+        Approximately 0% of installs use this feature. Anyone inclined to use
+        it would likely use stunnel or ssh -L instead.
+    * ripped out SSL certificate management (great idea, but unused)
+    * SQL: Fixed the data model for zone nameservers. Replaced the abhorrent
+      nt_zone.ns0..ns9 columns with the table nt_zone_nameservers.
+      * there's no limit on how many nameservers a zone can publish to
+      * queries are much simpler
+      * deleted unpack_nameservers (no longer necessary)
+      * added set_zone_nameservers
+      * now we can run a simple, inexpensive query to determine if any
+        zones that publish to a given NS have modification dates greater
+        than the last successful export. Yah.
+      * I broke the old nt_export_djb.c program. Boo. Any c++ programmers want
+        to help? Read the TODO file in sys/djb and send a patch.
+    * SQL: renamed nt_zone.output_format to export_format
+    * SQL: converted deleted database fields from enum to tinyint(1)
+      (enums are evil. Their contents are strings. Having to quote numeric
+      values in every query has ALWAYS irritated me about NicTool. ENUM is
+      MySQL proprietary, and they often don't behave as expected).
+    * SQL: added nt_nameserver.export_serials
+      (controls export of serial nums for tinydns export).
+    * removed the quotes from many integers. Someone wasn't thinking...
+    * ripped out nt_nameserver.service_type
+    * removed all summary code (unused)
+
+2.09    2011.10
+
+    * added nt_options database table (and db_version value). Expect the
+      contents of nictoolserver.conf and nictoolclient.conf to be here.
+
+2.08    2010.03
+
+    * added support for encrypted passwords in nt_user table
+        see http://www.tnpi.net/support/forums/index.php/topic,902.0.html
+      NOTICE: this version requires updating the database:
+         $ mysql -u nictool -p nictool < sql/upgrade/update_v2_08.sql
+    * Added file existence test before comparing for differences in
+      nt_export_djb.pl
+    * Updated the IPv6 implementation to choose between AAAA records with and
+      without auto created PTR records. Lines prefixed with a 6 will have
+      both an AAAA and a PTR record created. Those prefixed with a 3 will only
+      have an AAAA record created.
+    * Fixed a bug in Zone/Record/Sanity that allowed : character to be allowed
+      when it shouldn't have been. This was causing tests to fail.
+    * Restrictions on passwords were imposed but the test weren't updated. Fixed.
+
+2.07     2008.09
+
+    * Updated the export routine to djbdns so it supports IPv6 adresses
+    * Add the option to add IPv6 AAAA addresses checked by Net::IP
+    * fixed a bug that prevented Advanced Search feature from working
+    * removed 28 lines of redundant code (thanks, maxv)
+
+2.06     2007.10
+
+    * fixed a bug in nt_export_djb.pl ($UID)
+        (https://www.tnpi.net/support/forums/index.php/topic,821.0.html)
+    * sort the zone records as signed integers (so reverse zone records are
+       sorted correctly) - thanks Patrick Woo at telus
+    * sort the zones as signed integers if group name has "reverse" in it
+    * added additional user and password validity checks
+       - max pass length of 15 chars
+       - max user length of 50 chars
+       - increased min password length to 6 chars
+       - password cannot be same as username
+       - password cannot contain the username
+    * removed a bunch of code duplication in User/Sanity.pm by abstracting
+      the user and password tests into their own subroutines
+    * Changed the hard coded paging limit from 100 to 255 and noted the
+      limit in the API docs per this notice:
+        https://www.tnpi.net/support/forums/index.php/topic,800.0.html
+    * nt_export_djb.pl fixes:
+       - export always reported failure if rsync was not being used.
+       - disabled some superfluous db logging that is not used.
+       - nicer formatting of the "export status" message
+
+2.05     2007.02
+
+NOTICE: this version requires updating your SQL tables! Something like this should work:
+     mysql -u nictool -p nictool < sql/upgrade/update_v2_05.sql
+
+    * abstracted NicToolServer::Zone::Record::Sanity::new_or_edit_basic_verify
+      into a suite of functions instead of one really big long nasty hard to read and poorly documented one
+    * nt_export_djb updates to support SRV records
+    * db_mysql.h
+          o ZONE_QUERY_FORMAT shortened from 716 to 509 characters
+          o added ZR_PRIORITY
+          o added ZR_OTHER
+    * nameserver/install.pl, rewrote, prompts for all required values with
+      reasonable defaults. Setting up a nameserver export process is now much easier.
+    * NicToolServer::Zone::get_zone_records: patch from slink, see forum thread
+    * nt_export_djb.pl - provides better error messages if your ns export isn't set up right
+    * bin/install_deps.sh - tries to install perl modules NicTool requires
+
+
+2.04     2007.01
+
+    - added "use Apache2::SOAP to nictoolserver.conf (mps)
+    - djbdns/nameserver/install.pl updates (rl)
+
+2.03    2005.04
+
+    - NicToolServer/Zone/Record/Sanity.pm - allow / character in TXT records (for SPF)
+    - NicToolServer/Zone/Record/Sanity.pm - replace any : characters in TXT records with \072 since : is a field delimiter in tinydns data files.
+
+2.02    2004.10
+
+    - NicToolServer/Response.pm - added mod_perl 2 check and use content_type instead of send_http_header if mod_perl 2.
+
+2.01    2004.09
+
+    - Added Copyright and Affero GPL license text to all source files
+    - Added files LICENSE & COPYING
+    - Updated files to reflect version 2.01
+    - sys/djb - make clean now cleans up nameserver/sample/nt_export_djb*
+    - consistent password among the variety of config files, now you can grep for it and change it everywhere at once.
+    - Added support for TXT records, now you can set up SPF records for email
+
+2.00    2002.02
+    -Protocol version is now specified via the "nt_protocol_version" parameter.  This is an optional parameter.  If specified NicToolServer will require that the version string is allowed
+    -Protocol version changed to 1.0.  Only this version is supported in NicToolServer version 2.00.
+    -Permissions
+        Entirely new permissions system.
+        The affected API functions are:
+        new_user, edit_user,get_user, new_group,edit_group,get_group
+        Nearly all actual function calls are affected, because certain actions may
+        not be allowed depending on a user's permissions.
+    -Delegation
+        Zones and Zone Records can be delegated to sub groups with a certain set
+        of permissions.  (Affected API functions : delegate_zones,delegate_zone_records,edit_zone_delegation,edit_zone_record_delegation,delete_zone_delegation,delete_zone_record_delegation, get_delegated_zones,get_delegated_zone_records,get_zone_delegates,get_zone_record_delegates).
+
+    -Usable Nameservers
+        Each Group now contains a list of Nameserver objects which are in effect delegated to the Group.  Zones within the Group (and subgroups of the Group) can be published to any of these Nameservers.
+    -API changes:
+        get_user - 'nt_user_id' now only parameter
+        save_user - DEPRECATED (see new_user and edit_user)
+        new_user  - creates new user (params 'nt_group_id','username','email' required)
+			can have all permissions specifications or
+			"inherit_group_permissions"==1 for inherited.
+        edit_user - modifies existing user (params nt_user_id required)
+
+        save_group - DEPRECATED (see new_group edit_group)
+        new_group - creates new group (params 'nt_group_id' 'name' required.  can have 'usable_nameservers' list of nameserver ids.)
+        edit_group- param nt_group_id required (can have usable_nameservers)
+        delete_group - only 'nt_group_id' parameter  reqd.
+
+        save_zone - DEPRECATED (see new_zone edit_zone)
+        new_zone  - 'nt_group_id' and 'zone' required (optional 'nameservers' list of nameservers to publish to)
+        edit_zone - nt_zone_id required (optional 'nameservers' list of nameserver ids)
+                  - parameter "deleted" = 0 means undelete a deleted zone
+
+        get_zone_application_log REMOVED (it was never implemented but was enabled)
+
+        save_zone_record - DEPRECATED (use new_zone_record and edit_zone_record)
+        new_zone_record - 'nt_zone_id','name','ttl','address' are required
+        edit_zone_record - only 'nt_zone_record_id' is required
+
+
+        save_nameserver - DEPRECATED (use new_nameserver and edit_nameserver)
+        new_nameserver - 'nt_nameserver_id','address','name','service_type','export_format' are required
+        edit_nameserver - only 'nt_zone_record_id' is required
+
+        get_group_zones - parameter "search_deleted" = '1' means only look for
+            deleted zones with the specified properties
+    -API additions
+        error responses may contain 'error_desc' in addition to 'error_code' and 'error_msg', with a short description of the error.
+        XXX
+        get_group_permissions - req: nt_group_id
+        get_user_permissions - req: nt_user_id
+
+        delegate_zones    - nt_group_id, nt_zone_id
+        delegate_zone_records    - nt_group_id, nt_zone_record_id
+        edit_zone_delegation    - nt_group_id, nt_zone_id
+        edit_zone_record_delegation    - nt_group_id, nt_zone_record_id
+        delete_zone_delegation    - nt_group_id, nt_zone_id
+        delete_zone_record_delegation    - nt_group_id, nt_zone_record_id
+        get_delegated_zones    - nt_group_id
+        get_delegated_zone_records    - nt_group_id
+        get_zone_delegates    - nt_zone_id
+        get_zone_record_delegates    - nt_zone_record_id
+
+
+     -Error Codes
+            These are now the error codes:
+            200 OK
+            300 Sanity Error
+            301 Required Parameters Missing
+            302 Some parameters were invalid
+            403 Invalid Username and/or Password
+            404 Access Permission Denied
+            500 Request for unknown action
+            501 Data transport Content-Type not supported
+            502 XML-RPC Parse Error
+            503 Method has been Deprecated
+            505 SQL Error
+            507 Internal Consistency Error
+            508 Internal Error
+            510 Incorrect Protocol Version
+            600 Failed to Complete Request
+            601 Object Not Found
+            700 Unknown Error
+    -Sanity checks for search/sort/paging parameters
+    -Sanity checks when creating Zones and Records to allow RFC 2317 style reverse lookup domains
+    -Database Changes
+        added 3 tables: nt_delegate, nt_delegate_log, and nt_perm
+        changed: nt_user_global_log. added the fields: target,target_id,target_name. changed the field action to add more enum values ('delegated','recovered','modified delegation',and 'removed delegation')
+    -Many, many bug fixes.
+    -Creating or editing NS Records with 'name' set to the 'zone' of the enclosing zone will be disallowed (these records will be created automatically at export time). -gws
+
+1.06x ???
+    -err, somebody forgot to list the changes -gws
+
+0.01    2001.01.26
+	- original version; created by h2xs 1.20 with options
+		-X -n NicToolServer
+
