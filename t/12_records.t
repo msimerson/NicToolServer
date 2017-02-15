@@ -411,11 +411,9 @@ sub doit {
         type    => 'NS',
         ttl     => 86400,
     );
-    noerrok( $res, 300, "redundant NS record test" );
-    ok( $res->get('error_msg') =>
-            qr/The NS Records for 'test\.com\.' will automatically be created when the Zone is published to a Nameserver/
-    );
-    ok( $res->get('error_desc') => qr/Sanity error/ );
+    noerrok( $res, 300, "undefined NS record test" );
+    ok( $res->get('error_msg') => qr/Nameserver not defined in NicTool/);
+    ok( $res->get('error_desc') => qr/Access Permission denied/ );
     if ( !$res->is_error ) {
         $res = $user->delete_zone_record(
             nt_zone_record_id => $res->{'nt_zone_record_id'} );
